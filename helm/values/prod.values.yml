@@ -1,0 +1,28 @@
+---
+replicaCount: 2
+environment: prod
+
+ports:
+  - port: 80
+    name: http
+    protocol: TCP
+
+service:
+  type: ClusterIP
+
+resources:
+  requests:
+    memory: 64Mi
+  limits:
+    memory: 128Mi
+
+ingress:
+  letsencrypt: "true"
+#   letsencryptSecret: "letsencrypt-prod"
+  letsencryptSecret: "letsencrypt-dns01-issuer"
+  hosts:
+    - name: prod.example.com
+      paths:
+        /:
+          serviceName: prod-frontend-service
+          servicePort: 80
